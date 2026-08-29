@@ -1,0 +1,38 @@
+artifact_path: /Users/hlibkyba/code/student_kaggle/model/mlruns/1/models/m-f44c08be74cb4dba90a12fc26797643d/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.12
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+mlflow_version: 3.15.1
+model_id: m-f44c08be74cb4dba90a12fc26797643d
+model_size_bytes: 1750
+model_uuid: m-f44c08be74cb4dba90a12fc26797643d
+prompts: null
+run_id: a3c8381603a34acba631234745f7e2d5
+signature:
+  inputs: '[{"type": "double", "name": "study_time_hours", "required": true}, {"type":
+    "double", "name": "attendance_percent", "required": true}, {"type": "double",
+    "name": "sleep_hours", "required": true}, {"type": "double", "name": "previous_grade",
+    "required": true}, {"type": "boolean", "name": "gender_Male", "required": true},
+    {"type": "boolean", "name": "parental_education_High School", "required": true},
+    {"type": "boolean", "name": "parental_education_Masters", "required": true}, {"type":
+    "boolean", "name": "parental_education_PhD", "required": true}, {"type": "boolean",
+    "name": "internet_access_Yes", "required": true}, {"type": "boolean", "name":
+    "extracurricular_activities_Yes", "required": true}, {"type": "boolean", "name":
+    "part_time_job_Yes", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "bool", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-08-27 16:24:56.399951'
