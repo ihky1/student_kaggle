@@ -4,10 +4,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.model_selection import cross_validate
+from sklearn.model_selection import cross_validate, GridSearchCV
 from sklearn.impute import SimpleImputer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 import mlflow
 
 mlflow.set_experiment("student_grade_improvement_prediction")
@@ -90,3 +91,44 @@ with mlflow.start_run(run_name='svm'):
     metrics = cross_validate(svm_pipeline, X_train, y_train, cv=5, scoring=['accuracy', 'precision', 'recall', 'f1'])
     for metric in scoring:
         mlflow.log_metric(f'cv_{metric}_mean', metrics[f'test_{metric}'].mean())
+
+
+## Logistic Regression model performs better on average!
+
+param_grid = {
+    "classifier__C": [0.01, 0.1, 1, 10, 100]
+}
+
+grid_search = GridSearchCV(
+    logreg_pipeline,
+    param_grid,
+    cv=5,
+    scoring='f1'
+)
+
+with mlflow.start_run(run_name='logistic_regression_tuned'):
+    mlflow.log_param("model", "LogisticRegression")
+
+    grid_search.fit(X_train, y_train)
+    mlflow.log_param(
+        "best_C",
+        grid_search.best_params_["classifier__C"]
+    )
+
+    mlflow.log_metric(
+        "best_cv_f1",
+        grid_search.best_score_
+    )
+
+
+final_model = grid_search.best_estimator_
+final_model.fit(X_train, y_train)
+
+y_pred = final_model.predict(X_test)
+
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+print("F1:", f1_score(y_test, y_pred))
+
+print(confusion_matrix(y_test, y_pred))
