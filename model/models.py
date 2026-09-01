@@ -7,6 +7,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import cross_validate
 from sklearn.impute import SimpleImputer
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 import mlflow
 
 mlflow.set_experiment("student_grade_improvement_prediction")
@@ -75,3 +76,17 @@ with mlflow.start_run(run_name='random_forest'):
     for metric in scoring:
         mlflow.log_metric(f'cv_{metric}_mean', metrics[f'test_{metric}'].mean())
     
+## SVM CLASSIFIER :
+
+svm_pipeline = Pipeline([
+    ('preprocessor', logreg_preprocessor),
+    ('classifier', SVC())
+])
+
+with mlflow.start_run(run_name='svm'):
+    scoring = ['accuracy', 'precision', 'recall', 'f1']
+    mlflow.log_param("model", "SVC")
+
+    metrics = cross_validate(svm_pipeline, X_train, y_train, cv=5, scoring=['accuracy', 'precision', 'recall', 'f1'])
+    for metric in scoring:
+        mlflow.log_metric(f'cv_{metric}_mean', metrics[f'test_{metric}'].mean())
