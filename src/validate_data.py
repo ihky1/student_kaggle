@@ -11,9 +11,9 @@ All GX objects are created with ``add_or_update_*`` / get-or-create fallbacks,
 so the script is idempotent: running it twice in a row works.
 """
 
+import sys
 from argparse import ArgumentParser
 from pathlib import Path
-import sys
 
 import great_expectations as gx
 import pandas as pd
@@ -29,17 +29,41 @@ VALIDATION_DEFINITION_NAME = "student_validation"
 # (expectation_type, kwargs) pairs describing the processed dataset contract.
 EXPECTATIONS: tuple = (
     ("ExpectColumnDistinctValuesToBeInSet", {"column": "gender", "value_set": ["Male", "Female"]}),
-    ("ExpectColumnDistinctValuesToBeInSet", {"column": "internet_access", "value_set": ["Yes", "No"]}),
-    ("ExpectColumnDistinctValuesToBeInSet", {"column": "extracurricular_activities", "value_set": ["Yes", "No"]}),
-    ("ExpectColumnDistinctValuesToBeInSet", {"column": "part_time_job", "value_set": ["Yes", "No"]}),
-    ("ExpectColumnValuesToBeBetween", {"column": "attendance_percent", "min_value": 0.0, "max_value": 100.0}),
     (
         "ExpectColumnDistinctValuesToBeInSet",
-        {"column": "parental_education", "value_set": ["High School", "Bachelors", "Masters", "PhD"]},
+        {"column": "internet_access", "value_set": ["Yes", "No"]},
     ),
-    ("ExpectColumnValuesToBeBetween", {"column": "previous_grade", "min_value": 0.0, "max_value": 100.0}),
-    ("ExpectColumnValuesToBeBetween", {"column": "final_exam_score", "min_value": 0.0, "max_value": 100.0}),
-    ("ExpectColumnDistinctValuesToBeInSet", {"column": "final_grade", "value_set": ["A", "B", "C", "D", "F"]}),
+    (
+        "ExpectColumnDistinctValuesToBeInSet",
+        {"column": "extracurricular_activities", "value_set": ["Yes", "No"]},
+    ),
+    (
+        "ExpectColumnDistinctValuesToBeInSet",
+        {"column": "part_time_job", "value_set": ["Yes", "No"]},
+    ),
+    (
+        "ExpectColumnValuesToBeBetween",
+        {"column": "attendance_percent", "min_value": 0.0, "max_value": 100.0},
+    ),
+    (
+        "ExpectColumnDistinctValuesToBeInSet",
+        {
+            "column": "parental_education",
+            "value_set": ["High School", "Bachelors", "Masters", "PhD"],
+        },
+    ),
+    (
+        "ExpectColumnValuesToBeBetween",
+        {"column": "previous_grade", "min_value": 0.0, "max_value": 100.0},
+    ),
+    (
+        "ExpectColumnValuesToBeBetween",
+        {"column": "final_exam_score", "min_value": 0.0, "max_value": 100.0},
+    ),
+    (
+        "ExpectColumnDistinctValuesToBeInSet",
+        {"column": "final_grade", "value_set": ["A", "B", "C", "D", "F"]},
+    ),
 )
 
 

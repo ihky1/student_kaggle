@@ -20,9 +20,9 @@ Usage (from the repo root)::
 The module has no side effects on import — everything runs inside ``main()``.
 """
 
+import os
 from argparse import ArgumentParser
 from pathlib import Path
-import os
 
 import joblib
 import mlflow
@@ -124,9 +124,7 @@ def build_pipelines(random_state: int = RANDOM_STATE) -> dict:
                 ("classifier", RandomForestClassifier(random_state=random_state)),
             ]
         ),
-        "svm": Pipeline(
-            [("preprocessor", logreg_preprocessor), ("classifier", SVC())]
-        ),
+        "svm": Pipeline([("preprocessor", logreg_preprocessor), ("classifier", SVC())]),
     }
 
 
@@ -210,7 +208,7 @@ def main() -> None:
             for metric in SCORING:
                 mlflow.log_metric(f"cv_{metric}_mean", scores[f"test_{metric}"].mean())
 
-    final_model = tune_and_evaluate(
+    tune_and_evaluate(
         pipelines["logistic_regression"],
         X_train,
         X_test,
