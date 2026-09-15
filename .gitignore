@@ -1,8 +1,20 @@
-model/mlruns/ 
-model/mlflow.db
 .venv/
 __pycache__/
 *.pyc
 .env
 .ipynb_checkpoints/
+
+# data
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# mlflow
+mlruns/
+model/mlruns/
+*.db
 mlflow.db
+
+# great expectations
+gx/
